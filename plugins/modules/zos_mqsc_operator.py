@@ -16,15 +16,15 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: zos_operator
-short_description: Execute operator command
+module: zos_mqsc_operator
+short_description: Execute MQSC commands
 description:
-    - Execute an operator command and receive the output.
-author: "Ping Xiao (@xiaopingBJ)"
+    - Execute MQSC command and receive the output. Usage \\<CPF> <MQSC_COMMAND>
+author: "Ping Xiao (@xiaopingBJ) & Alessandro R Marialva (@alessandromarialva)"
 options:
   cmd:
     description:
-      - The command to execute.
+      - The MQSC command to execute.
     type: str
     required: true
   verbose:
@@ -42,51 +42,49 @@ options:
 """
 
 EXAMPLES = r"""
-- name: Execute an operator command to show active jobs
-  zos_operator:
-    cmd: 'd u,all'
+- name: Execute a MQSC command to display MQ Queue Manager details
+  zos_mqsc_operator:
+    cmd: '\\##EE4Q DISPLAY QMGR'
 
-- name: Execute an operator command to show active jobs with verbose information
-  zos_operator:
-    cmd: 'd u,all'
+- name: Execute a MQSC command to display MQ Queue Manager details with verbose information
+  zos_mqsc_operator:
+    cmd: '\\##EE4Q DISPLAY QMGR'
     verbose: true
 
-- name: Execute an operator command to show active jobs with verbose and debug information
-  zos_operator:
-    cmd: 'd u,all'
+- name: Execute a MQSC command to display MQ Queue Manager details with verbose and debug information
+  zos_mqsc_operator:
+    cmd: '\\##EE4Q DISPLAY QMGR'
     verbose: true
     debug: true
 
 - name: Execute an operator command to purge all job logs (requires escaping)
-  zos_operator:
-    cmd: "\\$PJ(*)"
+  zos_mqsc_operator:
+    cmd: "\\##EE4Q DEFINE QLOCAL(ALESS.TEST.ZOS) DESCR('Local_queue_for_Ansible_tests')"
 
 """
 
 RETURN = r"""
 rc:
     description:
-       Return code of the operator command
+       Return code of the MQSC command
     returned: on success
     type: int
     sample: 0
 content:
     description:
-       The response resulting from the execution of the operator command
+       The response resulting from the execution of the MQSC command
     returned: on success
     type: list
     sample:
-        [ "MV2C      2020039  04:29:57.58             ISF031I CONSOLE XIAOPIN ACTIVATED ",
-          "MV2C      2020039  04:29:57.58            -D U,ALL                           ",
-          "MV2C      2020039  04:29:57.59             IEE457I 04.29.57 UNIT STATUS 948  ",
-          "         UNIT TYPE STATUS        VOLSER     VOLSTATE      SS                 ",
-          "          0100 3277 OFFLINE                                 0                ",
-          "          0101 3277 OFFLINE                                 0                "
+        [ "E4E4      2020238  23:37:37.00             ISF031I CONSOLE BR20396 ACTIVATED",
+          "E4E4      2020238  23:37:37.00            -##EE4Q DEFINE QLOCAL(ALESS.TEST.ZOS) DESCR(LOCAL_QUEUE_FOR_ANSIBLE_TESTS)",
+          "E4E4      2020238  23:37:37.00  STC18668   CSQ9022I ##EE4Q CSQMAQLC ' DEFINE QLOCAL' NORMAL COMPLETION",
+          ""
         ]
 changed:
     description:
        Indicates if any changes were made during module operation.
-       Given operator commands may introduce changes that are unknown to the
+       Given MQSC commands may introduce changes that are unknown to the
        module. True is always returned unless either a module or
        command failure has occurred.
     returned: always
