@@ -44,22 +44,22 @@ options:
 EXAMPLES = r"""
 - name: Execute a MQSC command to display MQ Queue Manager details
   zos_mqsc_operator:
-    cmd: '\\##EE4Q DISPLAY QMGR'
+    cmd: '\\<CPF> DISPLAY QMGR'
 
 - name: Execute a MQSC command to display MQ Queue Manager details with verbose information
   zos_mqsc_operator:
-    cmd: '\\##EE4Q DISPLAY QMGR'
+    cmd: '\\<CPF> DISPLAY QMGR'
     verbose: true
 
 - name: Execute a MQSC command to display MQ Queue Manager details with verbose and debug information
   zos_mqsc_operator:
-    cmd: '\\##EE4Q DISPLAY QMGR'
+    cmd: '\\<CPF> DISPLAY QMGR'
     verbose: true
     debug: true
 
 - name: Execute an operator command to purge all job logs (requires escaping)
   zos_mqsc_operator:
-    cmd: "\\##EE4Q DEFINE QLOCAL(ALESS.TEST.ZOS) DESCR('Local_queue_for_Ansible_tests')"
+    cmd: "\\<CPF> DEFINE QLOCAL(ANSB.TEST.ZOS) DESCR('Local_queue_for_Ansible_tests')"
 
 """
 
@@ -77,7 +77,7 @@ content:
     type: list
     sample:
         [ "E4E4      2020238  23:37:37.00             ISF031I CONSOLE BR20396 ACTIVATED",
-          "E4E4      2020238  23:37:37.00            -##EE4Q DEFINE QLOCAL(ALESS.TEST.ZOS) DESCR(LOCAL_QUEUE_FOR_ANSIBLE_TESTS)",
+          "E4E4      2020238  23:37:37.00            -##EE4Q DEFINE QLOCAL(ANSB.TEST.ZOS) DESCR(LOCAL_QUEUE_FOR_ANSIBLE_TESTS)",
           "E4E4      2020238  23:37:37.00  STC18668   CSQ9022I ##EE4Q CSQMAQLC ' DEFINE QLOCAL' NORMAL COMPLETION",
           ""
         ]
